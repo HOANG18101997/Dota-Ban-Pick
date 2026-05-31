@@ -112,8 +112,10 @@ const HEROES = [
   {"id":110,"name":"Zeus","image":"zeusjpg.png"}
 ];
 
-// IMG_PATH: relative from the HTML file (index.html at root)
-const IMG_PATH = 'images/';
+// Auto-detect base path (works for GitHub Pages sub-path and local file://)
+const scriptSrc = document.currentScript.src;
+const BASE = scriptSrc.substring(0, scriptSrc.lastIndexOf('/banpick/') + 1);
+const IMG_PATH = BASE + 'images/';
 
 // ====== TURN TEMPLATES ======
 const TURN_TEMPLATES = [
