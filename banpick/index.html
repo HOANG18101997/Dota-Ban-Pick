@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dota Ban Pick</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ====== SCREEN 1: CHOOSE BO ====== -->
+    <div id="screen-bo" class="screen active">
+        <div class="bo-container">
+            <h1 class="bo-title">DOTA BAN PICK</h1>
+            <p class="bo-sub">Select your match format</p>
+            <div class="bo-buttons">
+                <button class="bo-btn" data-bo="3">BO3</button>
+                <button class="bo-btn" data-bo="5">BO5</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== SCREEN 2: BAN PICK ====== -->
+    <div id="screen-bp" class="screen">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <span class="format-badge" id="formatBadge">BO3</span>
+                <span class="game-counter" id="gameCounter">Game 1 / 3</span>
+            </div>
+            <div class="header-center">
+                <div class="turn-indicator" id="turnIndicator">
+                    <span class="turn-team" id="turnTeam">Sentinel</span>
+                    <span class="turn-action" id="turnAction">BAN</span>
+                    <span class="turn-phase" id="turnPhase">Phase 1</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="header-btn btn-undo" id="btnUndo" disabled>↩ Undo</button>
+                <button class="header-btn btn-endgame" id="btnEndGame" disabled>End Game</button>
+                <button class="header-btn btn-reset" id="btnReset">↺ Reset All</button>
+            </div>
+        </div>
+
+        <!-- Hero Pool -->
+        <div class="hero-pool-wrapper">
+            <h3 class="pool-title">HERO POOL</h3>
+            <div class="hero-pool" id="heroPool">
+                <!-- filled by JS -->
+            </div>
+        </div>
+
+        <!-- Main Board -->
+        <div class="board">
+            <!-- Sentinel -->
+            <div class="team team-sentinel" id="teamSentinel">
+                <h2 class="team-name sentinel-name">⚔️ SENTINEL</h2>
+                <div class="slot-group">
+                    <h4 class="slot-label">BAN</h4>
+                    <div class="slot-row" id="sentinelBans">
+                        <div class="slot ban-slot" data-team="sentinel" data-type="ban" data-index="0"></div>
+                        <div class="slot ban-slot" data-team="sentinel" data-type="ban" data-index="1"></div>
+                        <div class="slot ban-slot" data-team="sentinel" data-type="ban" data-index="2"></div>
+                        <div class="slot ban-slot" data-team="sentinel" data-type="ban" data-index="3"></div>
+                        <div class="slot ban-slot" data-team="sentinel" data-type="ban" data-index="4"></div>
+                    </div>
+                </div>
+                <div class="slot-group">
+                    <h4 class="slot-label">PICK</h4>
+                    <div class="slot-row" id="sentinelPicks">
+                        <div class="slot pick-slot" data-team="sentinel" data-type="pick" data-index="0"></div>
+                        <div class="slot pick-slot" data-team="sentinel" data-type="pick" data-index="1"></div>
+                        <div class="slot pick-slot" data-team="sentinel" data-type="pick" data-index="2"></div>
+                        <div class="slot pick-slot" data-team="sentinel" data-type="pick" data-index="3"></div>
+                        <div class="slot pick-slot" data-team="sentinel" data-type="pick" data-index="4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VS Divider -->
+            <div class="vs-divider">VS</div>
+
+            <!-- Scourge -->
+            <div class="team team-scourge" id="teamScourge">
+                <h2 class="team-name scourge-name">💀 SCOURGE</h2>
+                <div class="slot-group">
+                    <h4 class="slot-label">BAN</h4>
+                    <div class="slot-row" id="scourgeBans">
+                        <div class="slot ban-slot" data-team="scourge" data-type="ban" data-index="0"></div>
+                        <div class="slot ban-slot" data-team="scourge" data-type="ban" data-index="1"></div>
+                        <div class="slot ban-slot" data-team="scourge" data-type="ban" data-index="2"></div>
+                        <div class="slot ban-slot" data-team="scourge" data-type="ban" data-index="3"></div>
+                        <div class="slot ban-slot" data-team="scourge" data-type="ban" data-index="4"></div>
+                    </div>
+                </div>
+                <div class="slot-group">
+                    <h4 class="slot-label">PICK</h4>
+                    <div class="slot-row" id="scourgePicks">
+                        <div class="slot pick-slot" data-team="scourge" data-type="pick" data-index="0"></div>
+                        <div class="slot pick-slot" data-team="scourge" data-type="pick" data-index="1"></div>
+                        <div class="slot pick-slot" data-team="scourge" data-type="pick" data-index="2"></div>
+                        <div class="slot pick-slot" data-team="scourge" data-type="pick" data-index="3"></div>
+                        <div class="slot pick-slot" data-team="scourge" data-type="pick" data-index="4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Global Ban -->
+        <div class="global-ban" id="globalBan">
+            <h3 class="global-ban-title">🌍 GLOBAL BAN / USED</h3>
+            <div class="global-ban-list" id="globalBanList"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
