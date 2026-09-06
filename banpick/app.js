@@ -183,6 +183,7 @@ const btnReset = $('btnReset');
 const btnRoguelike = $('btnRoguelike');
 const roguelikeModal = $('roguelikeModal');
 const roguelikeChoices = $('roguelikeChoices');
+const roguelikeTurnInfo = $('roguelikeTurnInfo');
 const turnIndicator = $('turnIndicator');
 
 // ====== INIT ======
@@ -274,6 +275,16 @@ function showRoguelikeModal() {
         alert('No more heroes available!');
         return;
     }
+
+    // Show which team is currently banning/picking
+    const turn = getCurrentTurn();
+    if (turn) {
+        const teamName = turn.team === 'sentinel' ? 'SENTINEL' : 'SCOURGE';
+        const icon = turn.team === 'sentinel' ? '⚔️' : '💀';
+        roguelikeTurnInfo.textContent = `${icon} ${teamName} đang ${turn.action.toUpperCase()}`;
+        roguelikeTurnInfo.className = 'roguelike-turn-info ' + turn.team;
+    }
+
     roguelikeChoices.innerHTML = '';
     heroes.forEach(h => {
         const choice = document.createElement('div');
