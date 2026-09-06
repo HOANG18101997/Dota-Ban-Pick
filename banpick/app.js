@@ -158,6 +158,8 @@ let state = {
     globalBanned: [],
     history: [],
     gameComplete: false,
+    roguelikeMode: false,
+    roguelikeModalShown: false,
 };
 
 // ====== DOM REFS ======
@@ -178,6 +180,9 @@ const globalBanList = $('globalBanList');
 const btnUndo = $('btnUndo');
 const btnEndGame = $('btnEndGame');
 const btnReset = $('btnReset');
+const btnRoguelike = $('btnRoguelike');
+const roguelikeModal = $('roguelikeModal');
+const roguelikeChoices = $('roguelikeChoices');
 const turnIndicator = $('turnIndicator');
 
 // ====== INIT ======
@@ -199,6 +204,7 @@ function setupButtons() {
     btnReset.addEventListener('click', resetAll);
     btnUndo.addEventListener('click', undoLast);
     btnEndGame.addEventListener('click', endGame);
+    btnRoguelike.addEventListener('click', toggleRoguelike);
 }
 
 // ====== START / RESET ======
@@ -216,6 +222,7 @@ function startNewGame() {
     state.scourge = { bans: [], picks: [] };
     state.history = [];
     state.gameComplete = false;
+    state.roguelikeModalShown = false;
 
     screenBo.classList.remove('active');
     screenBp.classList.add('active');
@@ -224,8 +231,71 @@ function startNewGame() {
 
 function resetAll() {
     if (!confirm('Reset all? Progress will be lost.')) return;
+    // Reset roguelike mode
+    state.roguelikeMode = false;
+    state.roguelikeModalShown = false;
+    document.body.classList.remove('roguelike-on');
+    btnRoguelike.textContent = '🎲 Roguelike: OFF';
+    btnRoguelike.classList.remove('active');
+    roguelikeModal.classList.remove('active');
     screenBp.classList.remove('active');
     screenBo.classList.add('active');
+}
+
+// ====== ROGUELIKE MODE ======
+function toggleRoguelike() {
+    state.roguelikeMode = !state.roguelikeMode;
+    if (state.roguelikeMode) {
+        document.body.classList.add('roguelike-on');
+        btnRoguelike.textContent = '🎲 Roguelike: ON';
+        btnRoguelike.classList.add('active');
+        state.roguelikeModalShown = false;
+        updateUI();
+    } else {
+        document.body.classList.remove('roguelike-on');
+        btnRoguelike.textContent = '🎲 Roguelike: OFF';
+        btnRoguelike.classList.remove('active');
+        roguelikeModal.classList.remove('active');
+    }
+}
+
+function getRandomHeroes(count) {
+    // Get all hero ids not yet used (global banned + current game picks/bans)
+    const usedSet = getAllUsedIds();
+    const available = HEROES.filter(h => !usedSet.has(h.id));
+    // Shuffle and pick count
+    const shuffled = [...available].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count);
+}
+
+function showRoguelikeModal() {
+    const heroes = getRandomHeroes(3);
+    if (heroes.length === 0) {
+        alert('No more heroes available!');
+        return;
+    }
+    roguelikeChoices.innerHTML = '';
+    heroes.forEach(h => {
+        const choice = document.createElement('div');
+        choice.className = 'roguelike-choice';
+        const img = document.createElement('img');
+        img.src = IMG_PATH + h.image;
+        img.alt = h.name;
+        const name = document.createElement('div');
+        name.className = 'choice-name';
+        name.textContent = h.name;
+        choice.appendChild(img);
+        choice.appendChild(name);
+        choice.addEventListener('click', () => selectRoguelikeHero(h.id));
+        roguelikeChoices.appendChild(choice);
+    });
+    roguelikeModal.classList.add('active');
+}
+
+function selectRoguelikeHero(heroId) {
+    roguelikeModal.classList.remove('active');
+    state.roguelikeModalShown = false;
+    applyHeroPick(heroId);
 }
 
 // ====== RENDER ======
@@ -309,6 +379,21 @@ function onHeroClick(heroId) {
     const turn = getCurrentTurn();
     if (!turn) return;
 
+    // If roguelike mode is on, show the modal instead of direct pick
+    if (state.roguelikeMode) {
+        showRoguelikeModal();
+        return;
+    }
+
+    applyHeroPick(heroId);
+}
+
+function applyHeroPick(heroId) {
+    if (state.gameComplete) return;
+
+    const turn = getCurrentTurn();
+    if (!turn) return;
+
     const team = turn.team;
     const action = turn.action;
 
@@ -371,6 +456,12 @@ function updateUI() {
     btnEndGame.disabled = true;
 
     renderAll();
+
+    // Auto-show roguelike modal when it's this team's turn
+    if (state.roguelikeMode && !state.roguelikeModalShown) {
+        state.roguelikeModalShown = true;
+        showRoguelikeModal();
+    }
 }
 
 function highlightActiveSlot() {
@@ -402,6 +493,7 @@ function undoLast() {
     if (idx !== -1) state.globalBanned.splice(idx, 1);
 
     state.gameComplete = false;
+    state.roguelikeModalShown = false;
 
     updateUI();
 }
@@ -421,6 +513,7 @@ function endGame() {
         state.history = [];
         state.gameComplete = false;
         state.globalBanned = oldGlobal;
+        state.roguelikeModalShown = false;
 
         updateUI();
     } else {

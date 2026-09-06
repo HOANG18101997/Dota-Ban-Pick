@@ -358,6 +358,99 @@ body {
     border-radius: 3px;
 }
 
+/* ====== ROGUELIKE MODE ====== */
+.btn-roguelike {
+    border-color: #9b59b6;
+    color: #c39bd3;
+}
+.btn-roguelike:hover:not(:disabled) {
+    border-color: #9b59b6 !important;
+    color: #fff !important;
+    background: rgba(155, 89, 182, 0.2) !important;
+}
+.btn-roguelike.active {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    border-color: #9b59b6;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(155, 89, 182, 0.5);
+}
+
+/* Hide hero pool when roguelike is on */
+body.roguelike-on .hero-pool-wrapper {
+    display: none;
+}
+
+/* Modal overlay */
+.roguelike-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+.roguelike-modal.active {
+    display: flex;
+}
+.roguelike-modal-content {
+    background: #141e33;
+    border: 2px solid #9b59b6;
+    border-radius: 16px;
+    padding: 24px 32px;
+    text-align: center;
+    max-width: 720px;
+    width: 90%;
+    box-shadow: 0 0 40px rgba(155, 89, 182, 0.4);
+}
+.roguelike-title {
+    font-size: 1.6rem;
+    color: #c39bd3;
+    margin-bottom: 6px;
+    letter-spacing: 2px;
+}
+.roguelike-sub {
+    color: #8892b0;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+}
+.roguelike-choices {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.roguelike-choice {
+    width: 160px;
+    cursor: pointer;
+    border: 2px solid #2d3a5c;
+    border-radius: 12px;
+    padding: 10px;
+    background: rgba(20, 30, 51, 0.8);
+    transition: all 0.2s ease;
+    text-align: center;
+}
+.roguelike-choice:hover {
+    border-color: #9b59b6;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(155, 89, 182, 0.4);
+}
+.roguelike-choice img {
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+.roguelike-choice .choice-name {
+    color: #e0e0e0;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
 @media (max-height: 700px) {
     .hero-pool-wrapper { max-height: 130px; }
     .slot { width: 46px; height: 34px; }

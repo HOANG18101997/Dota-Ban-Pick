@@ -35,6 +35,7 @@
                 </div>
             </div>
             <div class="header-right">
+                <button class="header-btn btn-roguelike" id="btnRoguelike">🎲 Roguelike: OFF</button>
                 <button class="header-btn btn-undo" id="btnUndo" disabled>↩ Undo</button>
                 <button class="header-btn btn-endgame" id="btnEndGame" disabled>End Game</button>
                 <button class="header-btn btn-reset" id="btnReset">↺ Reset All</button>
@@ -109,6 +110,15 @@
         <div class="global-ban" id="globalBan">
             <h3 class="global-ban-title">🌍 GLOBAL BAN / USED</h3>
             <div class="global-ban-list" id="globalBanList"></div>
+        </div>
+    </div>
+
+    <!-- ====== ROGUELIKE MODAL ====== -->
+    <div class="roguelike-modal" id="roguelikeModal">
+        <div class="roguelike-modal-content">
+            <h3 class="roguelike-title">🎲 Chọn 1 trong 3 hero</h3>
+            <p class="roguelike-sub">Hero đã dùng sẽ bị global ban</p>
+            <div class="roguelike-choices" id="roguelikeChoices"></div>
         </div>
     </div>
 
